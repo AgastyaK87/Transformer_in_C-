@@ -1,0 +1,20 @@
+# CMake build files
+/cmake-build-*/
+
+# Executables and libraries
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+
+# User-specific CLion files
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Third-party libraries
+/eigen-3.4.0/
+
+
+# Other common files to ignore
+.DS_Store
