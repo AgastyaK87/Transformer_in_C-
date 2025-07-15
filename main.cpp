@@ -1,27 +1,29 @@
-//
-// Created by gayat on 7/14/2025.
-//
-
-#include "main.h"
 #include <iostream>
-#include <Eigen/Dense>
+#include <vector>
+#include "input_layer.h"
 
 int main() {
-    // Define two 2x2 matrices
-    Eigen::Matrix2f m;
-    m << 1, 2,
-         3, 4;
+    // --- Hyperparameters ---
+    const int VOCAB_SIZE = 1000;
+    const int D_MODEL = 12; // Use a small dimension for easy printing
+    const int MAX_SEQ_LEN = 50;
 
-    Eigen::Matrix2f n;
-    n << 5, 6,
-         7, 8;
+    // --- Create the layer ---
+    InputLayer input_layer(VOCAB_SIZE, D_MODEL, MAX_SEQ_LEN);
 
-    // Multiply them
-    Eigen::Matrix2f result = m * n;
+    // --- Create a sample input sentence (as token IDs) ---
+    std::vector<int> sample_tokens = {15, 234, 512, 9, 87}; // e.g., "hello world from C++"
 
-    // Print the result to the console
-    std::cout << "--- Eigen Library Test ---" << std::endl;
-    std::cout << "\nResult of matrix multiplication:\n" << result << std::endl;
+    // --- Perform the forward pass ---
+    Eigen::MatrixXf final_output = input_layer.forward(sample_tokens);
+
+    // --- Print the result ---
+    std::cout << "\nInput Token IDs: ";
+    for(int id : sample_tokens) {
+        std::cout << id << " ";
+    }
+    std::cout << "\n\nOutput Matrix (Shape: " << final_output.rows() << "x" << final_output.cols() << "):\n";
+    std::cout << final_output << std::endl;
 
     return 0;
 }

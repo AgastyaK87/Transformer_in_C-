@@ -13,4 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(eigen-3.4.0)
 
 # Create the executable from ONLY your .cpp source files
-add_executable(Transformer_in_C_ main.cpp)
+add_executable(Transformer_in_C_ main.cpp
+        token_embedding.h
+        token_embedding.cpp
+        input_layer.h
+        input_layer.cpp)
