@@ -13,6 +13,11 @@ InputLayer::InputLayer(int vocab_size, int d_model, int max_seq_len) : d_model_(
             double angle = pos / std::pow(10000.0, (2.0 * i) / d_model);
             pos_encoding_matrix_(pos, 2 * i) = std::sin(angle);
             pos_encoding_matrix_(pos, 2 * i + 1) = std::cos(angle);
+
+            //POSITION OF THE TOKEN:
+            //This is a unique fingerprint for each slot in the sentence
+            //Predictable - nonrandom pattern.
+
         }
     }
     std::cout << "InputLayer initialized." << std::endl;
@@ -34,7 +39,14 @@ Eigen::MatrixXf InputLayer::forward(const std::vector<int>& token_ids) {
 
         // 3. Add them together and place in the output matrix
         output.row(i) = token_embedding + pos_encoding;
+
+        //FINAL VECTOR FOR EACH TOKEN is the meaning plus the positional vector.
     }
 
     return output;
 }
+
+//UNDERSTANDING THE OUTPUT:
+// I give it an input of 5 "words". these words have 12 dimensional meanings, which is the semantic meaning.
+//The positional encoding is modified by adding a "gps coordinate" to the vectory for position 0 in the sentence.
+// The GPS vector for position 1 modified the second row, and so on.
