@@ -17,4 +17,6 @@ add_executable(Transformer_in_C_ main.cpp
         token_embedding.h
         token_embedding.cpp
         input_layer.h
-        input_layer.cpp)
+        input_layer.cpp
+        attention.h
+        attention.cpp)
