@@ -19,4 +19,8 @@ add_executable(Transformer_in_C_ main.cpp
         input_layer.h
         input_layer.cpp
         attention.h
-        attention.cpp)
+        attention.cpp
+        layer_norm.h
+        layer_norm.cpp
+        ffn.h
+        ffn.cpp)
