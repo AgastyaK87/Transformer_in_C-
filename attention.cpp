@@ -51,3 +51,48 @@ Eigen::MatrixXf SingleHeadAttention::forward(const Eigen::MatrixXf& x) {
 
     return output;
 }
+
+//Multihead Attention Implementation
+
+MultiHeadAttention::MultiHeadAttention(int n_heads, int d_model, int d_k)
+    : n_heads_(n_heads), d_k_(d_k) {
+
+    // 1. Create the committee of attention heads
+    for (int i = 0; i < n_heads_; ++i) {
+        heads_.emplace_back(d_model, d_k_);
+    }
+
+    // 2. Initialize the final output weight matrix.
+    // This matrix projects the concatenated outputs of all heads
+    // back down to the model's original dimension (d_model).
+    // The input dimension to this layer is (n_heads * d_k).
+    W_o_ = Eigen::MatrixXf::Random(n_heads_ * d_k_, d_model);
+}
+
+Eigen::MatrixXf MultiHeadAttention::forward(const Eigen::MatrixXf& x) {
+    //1. Run all attention heads in parallel and collect outputs
+    std::vector<Eigen::MatrixXf> head_outputs;
+    for (auto& head : heads_) {
+        head_outputs.push_back(head.forward(x));
+    }
+
+    //2. Concat the outputs of all the heads
+    // Create matrix to hold head outputs side by side
+    int seq_len = x.rows();
+    Eigen::MatrixXf concatenated_output(seq_len, n_heads_ * d_k_);
+
+    for (int i = 0; i<n_heads_; ++i) {
+        //Eigen's block method lets us copy small matrix (head output)
+        //THis gets copied into bigger matrix (concat otutput)
+        concatenated_output.block(0, i * d_k_, seq_len, d_k_) = head_outputs[i];
+    }
+
+    // 3. Apply the final linear layer (W_o).
+    // This combines the insights from all heads into a single unified output.
+    // concatenated_output has shape (seq_len, n_heads * d_k)
+    // W_o_ has shape (n_heads * d_k, d_model)
+    // Final output has shape (seq_len, d_model)
+    Eigen::MatrixXf final_output = concatenated_output * W_o_;
+
+    return final_output;
+}

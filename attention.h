@@ -21,4 +21,23 @@ private:
     Eigen::MatrixXf W_v_; // Value weight matrix
 };
 
+class MultiHeadAttention
+{
+public:
+    MultiHeadAttention(int n_heads, int d_model, int d_k);
+
+    //Forward Pass
+    Eigen::MatrixXf forward(const Eigen::MatrixXf& x);
+private:
+    int n_heads_;
+    int d_k_;
+
+    //Vector to hold all individual attention heads
+    std::vector<SingleHeadAttention> heads_;
+
+    //Linear Layer to combine head outputs
+    Eigen::MatrixXf W_o_;
+
+};
+
 #endif //ATTENTION_H
