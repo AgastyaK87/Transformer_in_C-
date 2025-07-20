@@ -25,3 +25,21 @@ Eigen::MatrixXf EncoderBlock::forward(const Eigen::MatrixXf& x) {
 
     return final_output;
 }
+
+Encoder::Encoder(int n_layers, int d_model, int n_heads, int d_ff) {
+    // Create the stack of N identical encoder blocks
+    for (int i = 0; i < n_layers; ++i) {
+        layers_.emplace_back(d_model, n_heads, d_ff);
+    }
+}
+
+Eigen::MatrixXf Encoder::forward(const Eigen::MatrixXf& x) {
+    Eigen::MatrixXf current_x = x;
+
+    // Pass the input through each layer in the stack sequentially
+    for (auto& layer : layers_) {
+        current_x = layer.forward(current_x);
+    }
+
+    return current_x;
+}

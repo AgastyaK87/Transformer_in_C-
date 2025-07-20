@@ -10,10 +10,11 @@ int main() {
     const int MAX_SEQ_LEN = 50;
     const int N_HEADS = 8;
     const int D_FF = 2048;
+    const int N_LAYERS = 6; // Standard number of encoder layers
 
-    // --- Create the layers ---
+    // --- Create the full model ---
     InputLayer input_layer(VOCAB_SIZE, D_MODEL, MAX_SEQ_LEN);
-    EncoderBlock encoder_block(D_MODEL, N_HEADS, D_FF);
+    Encoder encoder(N_LAYERS, D_MODEL, N_HEADS, D_FF);
 
     // --- Create a sample input sentence ---
     std::vector<int> sample_tokens = {15, 234, 512, 9, 87, 34};
@@ -21,13 +22,13 @@ int main() {
     // --- Perform the full forward pass ---
     // 1. Get input matrix from the input layer
     Eigen::MatrixXf x = input_layer.forward(sample_tokens);
-    std::cout << "Input to EncoderBlock shape: " << x.rows() << "x" << x.cols() << std::endl;
+    std::cout << "Input to Encoder shape: " << x.rows() << "x" << x.cols() << std::endl;
 
-    // 2. Pass data through the complete encoder block
-    Eigen::MatrixXf final_output = encoder_block.forward(x);
-    std::cout << "Output from EncoderBlock shape: " << final_output.rows() << "x" << final_output.cols() << std::endl;
+    // 2. Pass data through the complete N-layer encoder
+    Eigen::MatrixXf final_output = encoder.forward(x);
+    std::cout << "Output from Encoder shape: " << final_output.rows() << "x" << final_output.cols() << std::endl;
 
-    std::cout << "\nSuccessfully passed data through a unified Transformer Encoder block." << std::endl;
+    std::cout << "\nCongratulations! You have successfully passed data through a complete Transformer Encoder." << std::endl;
 
     return 0;
 }
