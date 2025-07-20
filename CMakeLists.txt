@@ -24,4 +24,5 @@ add_executable(Transformer_in_C_ main.cpp
         layer_norm.cpp
         ffn.h
         ffn.cpp
-        encoder.h)
+        encoder.h
+        encoder.cpp)
