@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\CMakeFiles\7624e72d6b2cdd90255097673f35fca6\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E031EC2A-D6C2-37E5-94E7-40EA7A0B203D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

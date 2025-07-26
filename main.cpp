@@ -1,34 +1,32 @@
 #include <iostream>
-#include <vector>
-#include "input_layer.h"
-#include "encoder.h"
+#include "tokenizer.h"
 
 int main() {
-    // --- Hyperparameters ---
-    const int VOCAB_SIZE = 1000;
-    const int D_MODEL = 512;
-    const int MAX_SEQ_LEN = 50;
-    const int N_HEADS = 8;
-    const int D_FF = 2048;
-    const int N_LAYERS = 6; // Standard number of encoder layers
+    try {
+        // 1. Initialize the tokenizer with the vocab file
+        Tokenizer tokenizer("vocab.txt");
 
-    // --- Create the full model ---
-    InputLayer input_layer(VOCAB_SIZE, D_MODEL, MAX_SEQ_LEN);
-    Encoder encoder(N_LAYERS, D_MODEL, N_HEADS, D_FF);
+        // 2. Define a test sentence
+        std::string test_prompt = "find all . log files";
 
-    // --- Create a sample input sentence ---
-    std::vector<int> sample_tokens = {15, 234, 512, 9, 87, 34};
+        // 3. Encode the sentence
+        std::vector<int> token_ids = tokenizer.encode(test_prompt);
 
-    // --- Perform the full forward pass ---
-    // 1. Get input matrix from the input layer
-    Eigen::MatrixXf x = input_layer.forward(sample_tokens);
-    std::cout << "Input to Encoder shape: " << x.rows() << "x" << x.cols() << std::endl;
+        std::cout << "\nOriginal prompt: '" << test_prompt << "'" << std::endl;
+        std::cout << "Encoded IDs: ";
+        for (int id : token_ids) {
+            std::cout << id << " ";
+        }
+        std::cout << std::endl;
 
-    // 2. Pass data through the complete N-layer encoder
-    Eigen::MatrixXf final_output = encoder.forward(x);
-    std::cout << "Output from Encoder shape: " << final_output.rows() << "x" << final_output.cols() << std::endl;
+        // 4. Decode the IDs back to a string
+        std::string decoded_prompt = tokenizer.decode(token_ids);
+        std::cout << "Decoded prompt: '" << decoded_prompt << "'" << std::endl;
 
-    std::cout << "\nCongratulations! You have successfully passed data through a complete Transformer Encoder." << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }

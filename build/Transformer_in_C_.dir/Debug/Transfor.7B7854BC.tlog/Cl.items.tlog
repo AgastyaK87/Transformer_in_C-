@@ -1,0 +1,8 @@
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\main.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\main.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\token_embedding.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\token_embedding.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\input_layer.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\input_layer.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\attention.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\attention.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\layer_norm.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\layer_norm.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\ffn.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\ffn.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\encoder.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\encoder.obj
+C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\utils.cpp;C:\Users\gayat\Documents\CppTransformer\Transformer_in_C-\build\Transformer_in_C_.dir\Debug\utils.obj
