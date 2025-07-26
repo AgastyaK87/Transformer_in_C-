@@ -1,5 +1,6 @@
 # CMake build files
 /cmake-build-*/
+/build
 
 # Executables and libraries
 *.exe
