@@ -5,6 +5,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import json
 from transformers import BertTokenizer
+from tqdm import tqdm
 
 #model/training settings
 VOCAB_SIZE = 30522 #bert vocab
@@ -13,7 +14,7 @@ N_HEADS = 8 #attention heads
 D_FF = 2048 #FFN inner dim
 N_LAYERS = 6 #Encoder/Decoder layers
 MAX_SEQ_LEN = 256 #max seq len process
-BATCH_SIZE = 16
+BATCH_SIZE = 27 #number of training examples used in 1 iteration of training
 LEARNING_RATE = 1e-4
 NUM_EPOCHS = 20
 
@@ -115,7 +116,7 @@ def train():
     model.train()
     for epoch in range(NUM_EPOCHS):
         total_loss = 0
-        for batch in dataloader:
+        for batch in tqdm(dataloader, desc=f"Epoch {epoch+1}/{NUM_EPOCHS}"):
             source_ids = batch['source_ids'].to(device)
             source_mask = batch['source_mask'].to(device)
             target_ids = batch['target_ids'].to(device)

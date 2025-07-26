@@ -5,12 +5,12 @@
 #include "layer_norm.h"
 #include "ffn.h"
 #include <Eigen/Dense>
+#include <fstream>
 
 class EncoderBlock {
 public:
     // Constructor
-    EncoderBlock(int d_model, int n_heads, int d_ff);
-
+    EncoderBlock(int d_model, int n_heads, int d_ff, std::ifstream& weight_file);
     // Forward pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);
 
@@ -28,7 +28,7 @@ private:
 class Encoder {
 public:
     // Constructor
-    Encoder(int n_layers, int d_model, int n_heads, int d_ff);
+    Encoder(int n_layers, int d_model, int n_heads, int d_ff, std::ifstream& weight_file);
 
     // Forward pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);

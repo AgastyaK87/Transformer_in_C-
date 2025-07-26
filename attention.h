@@ -2,11 +2,13 @@
 #define ATTENTION_H
 
 #include <Eigen/Dense>
+#include <fstream>
 
 class SingleHeadAttention {
 public:
     // Constructor
-    SingleHeadAttention(int d_model, int d_k);
+
+    SingleHeadAttention(int d_model, int d_k, std::ifstream& weight_file);
 
     // Forward pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);
@@ -24,7 +26,7 @@ private:
 class MultiHeadAttention
 {
 public:
-    MultiHeadAttention(int n_heads, int d_model, int d_k);
+    MultiHeadAttention(int n_heads, int d_model, int d_k, std::ifstream& weight_file);
 
     //Forward Pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);

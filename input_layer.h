@@ -3,11 +3,11 @@
 
 #include <Eigen/Dense>
 #include <vector>
-
+#include <fstream>
 class InputLayer {
 public:
     // Constructor to initialize the layer
-    InputLayer(int vocab_size, int d_model, int max_seq_len);
+    InputLayer(int vocab_size, int d_model, int max_seq_len, std::ifstream& weight_files);
 
     // The forward pass method
     Eigen::MatrixXf forward(const std::vector<int>& token_ids);

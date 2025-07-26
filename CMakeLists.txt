@@ -25,4 +25,6 @@ add_executable(Transformer_in_C_ main.cpp
         ffn.h
         ffn.cpp
         encoder.h
-        encoder.cpp)
+        encoder.cpp
+        utils.h
+        utils.cpp)

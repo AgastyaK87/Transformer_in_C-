@@ -1,11 +1,16 @@
 #include "layer_norm.h"
 #include <cmath>
+#include "utils.h"
 
-LayerNorm::LayerNorm(int d_model) : d_model_(d_model), epsilon_(1e-5) {
-    // Initialize gamma to ones and beta to zeros.
-    // This makes the initial normalization have no effect.
-    gamma_ = Eigen::RowVectorXf::Ones(d_model);
-    beta_ = Eigen::RowVectorXf::Zero(d_model);
+LayerNorm::LayerNorm(int d_model, std::ifstream& weight_file)
+    : d_model_(d_model), epsilon_(1e-5) {
+    // Define the shapes
+    gamma_ = Eigen::RowVectorXf(d_model);
+    beta_ = Eigen::RowVectorXf(d_model);
+
+    // Load from file
+    load_matrix(gamma_, weight_file);
+    load_matrix(beta_, weight_file);
 }
 
 Eigen::MatrixXf LayerNorm::forward(const Eigen::MatrixXf& x) {

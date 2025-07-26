@@ -1,26 +1,25 @@
 #include "input_layer.h"
 #include <cmath>
 #include <iostream>
+#include "utils.h"
 
-InputLayer::InputLayer(int vocab_size, int d_model, int max_seq_len) : d_model_(d_model) {
-    // 1. Initialize the token embedding matrix with random values
-    embedding_matrix_ = Eigen::MatrixXf::Random(vocab_size, d_model);
+InputLayer::InputLayer(int vocab_size, int d_model, int max_seq_len, std::ifstream& weight_file)
+    : d_model_(d_model) {
 
-    // 2. Create and initialize the positional encoding matrix
+    // Instead of random, define the shape and load the trained weights
+    embedding_matrix_ = Eigen::MatrixXf(vocab_size, d_model);
+    load_matrix(embedding_matrix_, weight_file);
+
+    // The positional encoding part remains exactly the same as it's not a learned parameter
     pos_encoding_matrix_ = Eigen::MatrixXf::Zero(max_seq_len, d_model);
     for (int pos = 0; pos < max_seq_len; ++pos) {
         for (int i = 0; i < d_model / 2; ++i) {
             double angle = pos / std::pow(10000.0, (2.0 * i) / d_model);
             pos_encoding_matrix_(pos, 2 * i) = std::sin(angle);
             pos_encoding_matrix_(pos, 2 * i + 1) = std::cos(angle);
-
-            //POSITION OF THE TOKEN:
-            //This is a unique fingerprint for each slot in the sentence
-            //Predictable - nonrandom pattern.
-
         }
     }
-    std::cout << "InputLayer initialized." << std::endl;
+    std::cout << "InputLayer initialized with trained weights." << std::endl;
 }
 
 Eigen::MatrixXf InputLayer::forward(const std::vector<int>& token_ids) {

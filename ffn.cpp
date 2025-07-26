@@ -1,11 +1,17 @@
 #include "ffn.h"
+#include "utils.h"
 
-FFN::FFN(int d_model, int d_ff){
+FFN::FFN(int d_model, int d_ff, std::ifstream& weight_file){
     //Init weights and bias with random values
-    W1_ = Eigen::MatrixXf::Random(d_model, d_ff);
-    b1_ = Eigen::RowVectorXf::Random(d_ff);
-    W2_ = Eigen::MatrixXf::Random(d_ff, d_model);
-    b2_ = Eigen::RowVectorXf::Random(d_model);
+    W1_ = Eigen::MatrixXf(d_model, d_ff);
+    b1_ = Eigen::RowVectorXf(d_ff);
+    W2_ = Eigen::MatrixXf(d_ff, d_model);
+    b2_ = Eigen::RowVectorXf(d_model);
+
+    load_matrix(W1_, weight_file);
+    load_matrix(b1_, weight_file); // Assuming load_matrix works for RowVector too
+    load_matrix(W2_, weight_file);
+    load_matrix(b2_, weight_file);
 }
 
 // ReLU activation function: max(0, x)

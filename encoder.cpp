@@ -1,11 +1,13 @@
 #include "encoder.h"
+#include "utils.h"
 
-EncoderBlock::EncoderBlock(int d_model, int n_heads, int d_ff) :
+EncoderBlock::EncoderBlock(int d_model, int n_heads, int d_ff, std::ifstream& weight_file) :
     d_model_(d_model),
-    attention_(n_heads, d_model, d_model / n_heads), // d_k is typically d_model / n_heads
-    norm1_(d_model),
-    ffn_(d_model, d_ff),
-    norm2_(d_model)
+    // Pass the file stream down to the constructors of the sub-layers
+    attention_(n_heads, d_model, d_model / n_heads, weight_file),
+    norm1_(d_model, weight_file),
+    ffn_(d_model, d_ff, weight_file),
+    norm2_(d_model, weight_file)
 {}
 
 Eigen::MatrixXf EncoderBlock::forward(const Eigen::MatrixXf& x) {
@@ -26,10 +28,10 @@ Eigen::MatrixXf EncoderBlock::forward(const Eigen::MatrixXf& x) {
     return final_output;
 }
 
-Encoder::Encoder(int n_layers, int d_model, int n_heads, int d_ff) {
-    // Create the stack of N identical encoder blocks
+Encoder::Encoder(int n_layers, int d_model, int n_heads, int d_ff, std::ifstream& weight_file) {
+    // Pass the file stream down into each EncoderBlock we create
     for (int i = 0; i < n_layers; ++i) {
-        layers_.emplace_back(d_model, n_heads, d_ff);
+        layers_.emplace_back(d_model, n_heads, d_ff, weight_file);
     }
 }
 

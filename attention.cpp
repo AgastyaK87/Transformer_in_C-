@@ -1,14 +1,22 @@
 #include "attention.h"
 #include <cmath>
 #include <iostream>
+#include "utils.h"
 
-SingleHeadAttention::SingleHeadAttention(int d_model, int d_k) : d_k_(d_k) {
-    // Initialize weight matrices with random values.
-    // Dimensions are (d_model, d_k) to project input vectors
-    // from d_model down to the head dimension d_k.
-    W_q_ = Eigen::MatrixXf::Random(d_model, d_k);
-    W_k_ = Eigen::MatrixXf::Random(d_model, d_k);
-    W_v_ = Eigen::MatrixXf::Random(d_model, d_k);
+
+
+SingleHeadAttention::SingleHeadAttention(int d_model, int d_k, std::ifstream& weight_file)
+    : d_k_(d_k) {
+
+    // Load trained weights from model
+    W_q_ = Eigen::MatrixXf(d_model, d_k);
+    W_k_ = Eigen::MatrixXf(d_model, d_k);
+    W_v_ = Eigen::MatrixXf(d_model, d_k);
+
+    // Load the weights from the file in the correct order
+    load_matrix(W_q_, weight_file);
+    load_matrix(W_k_, weight_file);
+    load_matrix(W_v_, weight_file);
 }
 
 // Applies the softmax function row-wise to a matrix.
@@ -54,19 +62,16 @@ Eigen::MatrixXf SingleHeadAttention::forward(const Eigen::MatrixXf& x) {
 
 //Multihead Attention Implementation
 
-MultiHeadAttention::MultiHeadAttention(int n_heads, int d_model, int d_k)
+MultiHeadAttention::MultiHeadAttention(int n_heads, int d_model, int d_k, std::ifstream& weight_file)
     : n_heads_(n_heads), d_k_(d_k) {
 
     // 1. Create the committee of attention heads
     for (int i = 0; i < n_heads_; ++i) {
-        heads_.emplace_back(d_model, d_k_);
+        heads_.emplace_back(d_model, d_k_, weight_file);
     }
 
-    // 2. Initialize the final output weight matrix.
-    // This matrix projects the concatenated outputs of all heads
-    // back down to the model's original dimension (d_model).
-    // The input dimension to this layer is (n_heads * d_k).
-    W_o_ = Eigen::MatrixXf::Random(n_heads_ * d_k_, d_model);
+    W_o_ = Eigen::MatrixXf(n_heads_ * d_k_, d_model);
+    load_matrix(W_o_, weight_file);
 }
 
 Eigen::MatrixXf MultiHeadAttention::forward(const Eigen::MatrixXf& x) {

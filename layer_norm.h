@@ -2,11 +2,12 @@
 #define LAYER_NORM_H
 
 #include <Eigen/Dense>
+#include <fstream>
 
 class LayerNorm {
 public:
     // Constructor
-    LayerNorm(int d_model);
+    LayerNorm(int d_model, std::ifstream& weight_file);
 
     // Forward pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);

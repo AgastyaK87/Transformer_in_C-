@@ -2,11 +2,12 @@
 #define FFN_H
 
 #include <Eigen/Dense>
+#include <fstream>
 
 class FFN {
 public:
     // Constructor
-    FFN(int d_model, int d_ff);
+    FFN(int d_model, int d_ff, std::ifstream& weight_file);
 
     // Forward pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);
