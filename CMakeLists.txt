@@ -29,4 +29,6 @@ add_executable(Transformer_in_C_ main.cpp
         utils.h
         utils.cpp
         tokenizer.h
-        tokenizer.cpp)
+        tokenizer.cpp
+        decoder.cpp
+        decoder.h)
