@@ -17,7 +17,6 @@ public:
     //vector of token ids = text string
     std::string decode(const std::vector<int> & ids);
 
-private:
 
     //lookup tables
     std::map<std::string, int> word_to_id_;

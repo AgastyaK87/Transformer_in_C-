@@ -30,6 +30,7 @@ public:
 
     //Forward Pass
     Eigen::MatrixXf forward(const Eigen::MatrixXf& x);
+    Eigen::MatrixXf forward(const Eigen::MatrixXf& x, const Eigen::MatrixXf& encoder_k, const Eigen::MatrixXf& encoder_v);
 private:
     int n_heads_;
     int d_k_;
