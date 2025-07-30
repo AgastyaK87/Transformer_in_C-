@@ -69,5 +69,11 @@ std::string Tokenizer::decode(const std::vector<int> & ids)
     }
     return text;
 
+}
 
+int Tokenizer::get_token_id(const std::string& word) const {
+    if (word_to_id_.count(word)) {
+        return word_to_id_.at(word);
+    }
+    return word_to_id_.at("[UNK]");
 }
